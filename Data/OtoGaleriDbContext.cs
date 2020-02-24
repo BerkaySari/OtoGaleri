@@ -24,6 +24,7 @@ namespace Data
             //        .HasDiscriminator<string>("UserType")
             //        .HasValue<Customer>("Customer");
 
+            #region many-to-many configuration (Customer - RentalHistory)
             modelBuilder.Entity<CustomerRentalHistory>()
                 .HasKey(crh => new {crh.CustomerId , crh.RentalHistoryId });
             modelBuilder.Entity<CustomerRentalHistory>()
@@ -34,7 +35,9 @@ namespace Data
                 .HasOne(bc => bc.RentalHistory)
                 .WithMany(c => c.CustomerRentalHistory)
                 .HasForeignKey(bc => bc.RentalHistoryId);
+            #endregion
 
+            #region many-to-many configuration (Car - RentalHistory)
             modelBuilder.Entity<CarRentalHistory>()
                 .HasKey(crh => new { crh.CarId, crh.RentalHistoryId });
             modelBuilder.Entity<CarRentalHistory>()
@@ -45,6 +48,21 @@ namespace Data
                 .HasOne(bc => bc.RentalHistory)
                 .WithMany(c => c.CarRentalHistory)
                 .HasForeignKey(bc => bc.RentalHistoryId);
+            #endregion
+
+            #region one-to-one configuration (User - Customer)
+            modelBuilder.Entity<User>()
+                .HasOne<Customer>(c => c.Customer)
+                .WithOne(u => u.User)
+                .HasForeignKey<Customer>(c => c.UserId);
+            #endregion
+
+            #region one-to-many configuration (Customer - Car)
+            modelBuilder.Entity<Car>()
+                .HasOne<Customer>(c => c.Customer)
+                .WithMany(c => c.Car)
+                .HasForeignKey(c => c.CustomerId);
+            #endregion
         }
 
 

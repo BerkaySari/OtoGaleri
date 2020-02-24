@@ -20,6 +20,7 @@ namespace Model
         public byte[] Photo { get; set; }
         public DateTime? ArrivalDate { get; set; }
 
+        public Guid CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ICollection<CarRentalHistory> CarRentalHistory { get; set; }
     }
