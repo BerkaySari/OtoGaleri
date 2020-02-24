@@ -1,4 +1,5 @@
-﻿using OtoGaleri.Core.Entity;
+﻿using Model.JoinTables;
+using OtoGaleri.Core.Entity;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace Model
     {
         public Car()
         {
-            this.RentalHistory = new HashSet<RentalHistory>();
+            //this.RentalHistory = new HashSet<RentalHistory>();
         }
 
         public string Brand { get; set; }
@@ -20,6 +21,6 @@ namespace Model
         public DateTime? ArrivalDate { get; set; }
 
         public virtual Customer Customer { get; set; }
-        public virtual ICollection<RentalHistory> RentalHistory { get; set; }
+        public virtual ICollection<CarRentalHistory> CarRentalHistory { get; set; }
     }
 }
