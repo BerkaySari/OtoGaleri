@@ -2,6 +2,8 @@
 using OtoGaleri.Core.Entity;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace Model
@@ -20,7 +22,7 @@ namespace Model
         public byte[] Photo { get; set; }
         public DateTime? ArrivalDate { get; set; }
 
-        public Guid CustomerId { get; set; }
+        public Guid? CustomerId { get; set; }
         public virtual Customer Customer { get; set; }
         public virtual ICollection<CarRentalHistory> CarRentalHistory { get; set; }
     }

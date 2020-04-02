@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using OtoGaleri.Models;
+using OtoGaleri.Service.UserService;
 
 namespace OtoGaleri.Controllers
 {

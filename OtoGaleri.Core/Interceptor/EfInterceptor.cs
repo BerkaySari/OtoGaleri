@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using Castle.DynamicProxy;
-using System.Text;
 using Microsoft.EntityFrameworkCore;
+using OtoGaleri.Core.UoW;
 
 namespace OtoGaleri.Core.Interceptor
 {
@@ -15,19 +14,18 @@ namespace OtoGaleri.Core.Interceptor
         }
         public void Intercept(IInvocation invocation)
         {
-            //todo:uow pattern
-            //UnitOfWork.Current = new UnitOfWork(_dbContext);
-            //UnitOfWork.Current.BeginTransaction();
+            UnitOfWork.Current = new UnitOfWork(_dbContext);
+            UnitOfWork.Current.BeginTransaction();
 
-            //try
-            //{
+            try
+            {
                 invocation.Proceed();
-            //    UnitOfWork.Current.Commit();
-            //}
-            //catch (Exception ex)
-            //{
-
-            //}
+                UnitOfWork.Current.Commit();
+            }
+            catch (Exception ex)
+            {
+                UnitOfWork.Current.Rollback();
+            }
         }
     }
 }

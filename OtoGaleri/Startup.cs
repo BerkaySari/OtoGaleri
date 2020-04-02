@@ -29,7 +29,7 @@ namespace OtoGaleri
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public IServiceProvider ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
@@ -39,7 +39,7 @@ namespace OtoGaleri
 
             proxyBuilder.RegisterAssemblyTypes(typeof(IUserService).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
-                //.AsImplementedInterfaces().EnableInterfaceInterceptors().InterceptedBy(typeof(EFInterceptor))
+                .AsImplementedInterfaces().EnableInterfaceInterceptors().InterceptedBy(typeof(EfInterceptor))
                 .InstancePerLifetimeScope();
 
             proxyBuilder.RegisterAssemblyTypes(typeof(IUserRepository).Assembly)
@@ -50,9 +50,9 @@ namespace OtoGaleri
             proxyBuilder.RegisterType<OtoGaleriDbContext>().As<DbContext>();
 
             proxyBuilder.Populate(services);
-            var container = proxyBuilder.Build();
+            //var container = proxyBuilder.Build();
 
-            return new AutofacServiceProvider(container);
+            //return new AutofacServiceProvider(container);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
