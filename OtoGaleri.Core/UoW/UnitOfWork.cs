@@ -20,13 +20,13 @@ namespace OtoGaleri.Core.UoW
 
         public void BeginTransaction()
         {
-            //_transaction = DbContext.Database.BeginTransaction();
+            _transaction = DbContext.Database.BeginTransaction();
         }
 
         public void Commit()
         {
             DbContext.SaveChanges();
-            //_transaction.Commit();
+            _transaction.Commit();
         }
 
         public void Rollback()
