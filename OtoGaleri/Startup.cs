@@ -28,34 +28,28 @@ namespace OtoGaleri
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+        }
 
-            var proxyBuilder = new ContainerBuilder();
+        public void ConfigureContainer(ContainerBuilder builder)
+        {
+            builder.RegisterType<EfInterceptor>();
+            builder.RegisterType<OtoGaleriDbContext>().As<DbContext>();
 
-            proxyBuilder.RegisterType<EfInterceptor>();
-
-            proxyBuilder.RegisterAssemblyTypes(typeof(IUserService).Assembly)
+            builder.RegisterAssemblyTypes(typeof(IUserService).Assembly)
                 .Where(t => t.Name.EndsWith("Service"))
                 .AsImplementedInterfaces().EnableInterfaceInterceptors().InterceptedBy(typeof(EfInterceptor))
                 .InstancePerLifetimeScope();
 
-            proxyBuilder.RegisterAssemblyTypes(typeof(IUserRepository).Assembly)
+            builder.RegisterAssemblyTypes(typeof(IUserRepository).Assembly)
                    .Where(t => t.Name.EndsWith("Repository"))
                    .AsImplementedInterfaces()
                    .InstancePerLifetimeScope();
-
-            proxyBuilder.RegisterType<OtoGaleriDbContext>().As<DbContext>();
-
-            proxyBuilder.Populate(services);
-            //var container = proxyBuilder.Build();
-
-            //return new AutofacServiceProvider(container);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -65,7 +59,6 @@ namespace OtoGaleri
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
